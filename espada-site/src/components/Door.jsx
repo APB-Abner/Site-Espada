@@ -21,6 +21,7 @@ export default function Door() {
 
             // Ativar controles orbitais no final do scroll
             if (progress >= 1) {
+                console.log("Scroll finalizado!");
                 setControlsEnabled(true);
             } else {
                 setControlsEnabled(false);
