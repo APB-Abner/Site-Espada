@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+canvas {
+    display: block;
+    /* Remove margens indesejadas do canvas */
+    position: fixed;
+    /* Evita que role junto com a página */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#root {
+    height: 200dvh;
+}
