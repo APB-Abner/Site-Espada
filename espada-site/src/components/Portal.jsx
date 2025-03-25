@@ -5,7 +5,7 @@ import { useFrame } from '@react-three/fiber';
 
 // Componente para as Partículas
 const Particles = () => {
-    const [particles, setParticles] = useState < THREE.Points | null > (null);
+    const [particles, setParticles] = useState();
     const particleMaterial = new THREE.PointsMaterial({
         color: new THREE.Color(0x00ff00),
         size: 0.1,
