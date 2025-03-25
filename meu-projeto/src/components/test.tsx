@@ -1,165 +1,85 @@
-import { Canvas } from '@react-three/fiber';
-import React, { useRef, useState } from 'react';
-import * as THREE from 'three';
-import { useFrame } from '@react-three/fiber';
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import { EffectComposer, Bloom, Select } from "@react-three/postprocessing";
+import * as THREE from "three";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import Bifrost from "/models/Bifrost.glb"
+import Sword from "./Sword";
 
-// Componente para as Partículas
-const Particles = () => {
-    const [particles, setParticles] = useState<THREE.Points | null>(null);
-    const particleMaterial = new THREE.PointsMaterial({
-        color: new THREE.Color(0x00ff00),
-        size: 0.1,
-        transparent: true,
-        opacity: 0.5,
-    });
+function BifrostEffect({ isReplacing }) {
+    const bifrostRef = useRef();
+    const { scene } = useGLTF(Bifrost);
 
-    const particleGeometry = new THREE.BufferGeometry();
-    const particleCount = 200; // Menos partículas para um efeito mais disperso
+    useEffect(() => {
+        if (scene) {
+            scene.traverse((child) => {
+                if (child.isMesh && child.material) {
+                    child.material.transparent = true;
+                    child.material.opacity = 1;
+                    child.material.alphaTest = 0.5;
+                    child.material.depthWrite = false;
+                    child.material.emissive = new THREE.Color(1, 1, 1);
+                    child.material.emissiveMap = child.material.map;
+                    child.material.emissiveIntensity = 0.5;
+                    child.material.toneMapped = false;
+                }
+            });
+        }
+    }, [scene]);
 
-    // Inicializar as posições das partículas dispersas
-    const positions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 20; // x (maior dispersão)
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 20; // y (maior dispersão)
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 20; // z (maior dispersão)
-    }
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    useEffect(() => {
+        if (bifrostRef.current) {
+            if (isReplacing) {
+                gsap.to(bifrostRef.current.scale, { x: 1, y: 1, z: 1, duration: 0.5 });
+            } else {
+                gsap.to(bifrostRef.current.scale, { x: 0, y: 0, z: 0, duration: 0.5 });
+            }
+        }
+    }, [isReplacing]);
 
-    // Função de criação de novas partículas
-    const createParticle = () => {
-        const newParticle = new Float32Array(3);
-        newParticle[0] = (Math.random() - 0.5) * 20;
-        newParticle[1] = (Math.random() - 0.5) * 20;
-        newParticle[2] = (Math.random() - 0.5) * 20;
-        return newParticle;
+    return <primitive ref={bifrostRef} object={scene} position={[0, 1.5, 0]} scale={[0, 0, 0]} />;
+}
+
+export default function Scene() {
+    const [visible, setVisible] = useState(true);
+    const [isReplacing, setIsReplacing] = useState(false);
+    const swordRef = useRef();
+
+    const handleGrab = () => {
+        console.log("Espada clicada!");
+        alert("Eu não faria isso...");
+
+        if (swordRef.current) {
+            gsap.to(swordRef.current.position, { y: 5, duration: 1, ease: "power2.in" });
+        }
+
+        setTimeout(() => {
+            setVisible(false);
+            setIsReplacing(true);
+
+            setTimeout(() => {
+                setIsReplacing(false);
+                setVisible(true);
+
+                if (swordRef.current) {
+                    gsap.to(swordRef.current.position, { y: 1.5, duration: 1, ease: "power2.out" });
+                }
+            }, 3000);
+        }, 500);
     };
 
-    useFrame((state, delta) => {
-        if (particles) {
-            const positions = particles.geometry.attributes.position.array as Float32Array;
-
-            for (let i = 0; i < particleCount; i++) {
-                const index = i * 3;
-                const dx = (0 - positions[index]);
-                const dy = (0 - positions[index + 1]);
-                const dz = (0 - positions[index + 2]);
-
-                // Atração para o centro
-                positions[index] += dx * 0.05 * delta;
-                positions[index + 1] += dy * 0.05 * delta;
-                positions[index + 2] += dz * 0.05 * delta;
-
-                // Se a partícula for atraída para o centro, recriar a partícula
-                if (Math.abs(positions[index]) < 0.1 && Math.abs(positions[index + 1]) < 0.1 && Math.abs(positions[index + 2]) < 0.1) {
-                    const newParticle = createParticle();
-                    positions[index] = newParticle[0];
-                    positions[index + 1] = newParticle[1];
-                    positions[index + 2] = newParticle[2];
-                }
-            }
-
-            particles.geometry.attributes.position.needsUpdate = true; // Atualizar a geometria
-        }
-    });
-
-    return <points ref={setParticles} geometry={particleGeometry} material={particleMaterial} />;
-};
-
-// Componente para o Buraco Negro com Vórtice
-const BlackHole = () => {
-    const sphereRef = useRef<THREE.Mesh | null>(null);
-
-    const blackHoleShader = `
-    uniform float time;
-    varying vec2 vUv;
-
-    void main() {
-      float dist = length(vUv - 0.5);
-      float strength = 1.0 / (dist * 3.0 + 0.1);
-      vec3 color = vec3(0.1, 0.1, 0.1) * strength;
-
-      float angle = atan(vUv.y - 0.5, vUv.x - 0.5) + time * 2.0;
-      float radius = length(vUv - 0.5);
-      vec2 uvDistort = vec2(cos(angle) * radius, sin(angle) * radius);
-      gl_FragColor = vec4(color + vec3(uvDistort.x * 0.5, uvDistort.y * 0.5, 0.1), 1.0);
-    }
-  `;
-
-    const material = new THREE.ShaderMaterial({
-        uniforms: { time: { value: 0.0 } },
-        vertexShader: `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `,
-        fragmentShader: blackHoleShader,
-        transparent: true,
-    });
-
-    useFrame((state, delta) => {
-        if (sphereRef.current) {
-            material.uniforms.time.value += delta;
-        }
-    });
-
     return (
-        <mesh ref={sphereRef} position={[0, 0, 0]}>
-            <sphereGeometry args={[1, 64, 64]} />
-            <primitive object={material} attach="material" />
-        </mesh>
+        <Canvas>
+            <ambientLight intensity={0.5} />
+            <directionalLight intensity={2} position={[5, 10, 5]} />
+            {visible && <group ref={swordRef}><Sword onClick={handleGrab} /></group>}
+            <EffectComposer>
+                <Select enabled={true}>
+                    <BifrostEffect isReplacing={true} />
+                </Select>
+                <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.1} intensity={1.5} />
+            </EffectComposer>
+        </Canvas>
     );
-};
-
-
-// Componente para a Cena com o Buraco Negro e Partículas
-const Sandbox: React.FC = () => {
-    return (
-        <div className='h-dvh'>
-            <Canvas>
-                <group>
-            <BlackHole />
-            <Particles />
-                </group>
-            </Canvas>
-        </div>
-    );
-};
-
-export default Sandbox;
-
-
-
-
-
-
-
-
-
-// Componente para a Cena com o Buraco Negro, Partículas e Raios
-// const Sandbox: React.FC = () => {
-//     return (
-//         <div className='h-dvh'>
-//         <Canvas>
-//         <group>
-//             <BlackHole />
-//             <Particles />
-//             <Rays />
-//         </group>
-//         </Canvas>
-//         </div>
-//     );
-// };
-
-// export default Sandbox;
-
-
-
-
-
-
-
-
-
-
+}
