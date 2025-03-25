@@ -1,22 +1,17 @@
-import React from "react";
-import Door from "./components/Door";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
+
 import Scene from "./components/Scene";
-import { Canvas } from "@react-three/fiber";
+import Story from "./components/Book";
 
-
-
-function App() {
-  // const [cameraPosition, setCameraPosition] = useState({ z: 5 });
-
+export default function App() {
   return (
-    <>
-      <Canvas className="" camera={{ position: [0, 2, 10], fov: 50 }}>
-        {/* <Door setCameraPosition={setCameraPosition} /> */}
-        <Scene />
-        {/* <Door />  */}
-      </Canvas>
-    </>
+    <Router>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Scene />} />
+        <Route path="/story" element={<Story />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
