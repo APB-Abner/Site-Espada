@@ -101,6 +101,8 @@ export default function Scene() {
 
                 <ambientLight intensity={0.5} />
                 <directionalLight intensity={2} position={[5, 10, 5]} />
+                <directionalLight intensity={2} position={[-15, 10, 15]} />
+                <directionalLight intensity={0.15} position={[15, 10, 15]} color= "orange"/>
 
                 <group ref={swordRef}>
                     <Sword onClick={handleGrab} />

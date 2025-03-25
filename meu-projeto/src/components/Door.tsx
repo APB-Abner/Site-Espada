@@ -66,6 +66,15 @@ export default function Door() {
                 <meshStandardMaterial map={texture} metalness={0.9} roughness={0.2} />
             </mesh>
 
+            <mesh position={[7, 0, 10]}>
+                <boxGeometry args={[2, 8, 1]} />
+                <meshStandardMaterial color={'black'} roughness={0.2} />
+            </mesh>
+            <mesh position={[-7, 0, 10]}>
+                <boxGeometry args={[2, 8, 1]} />
+                <meshStandardMaterial color={'black'} roughness={0.2} flatShading={true}/>
+            </mesh>
+
             <pointLight ref={lightRef1} position={[-3.5, 4, 11]} intensity={5} color="cyan" />
             <pointLight ref={lightRef2} position={[3.5, 4, 11]} intensity={5} color="cyan" />
 
