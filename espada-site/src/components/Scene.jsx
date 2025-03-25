@@ -102,7 +102,7 @@ export default function Scene() {
             <Canvas gl={{ toneMapping: ACESFilmicToneMapping }}>
 
                 <ambientLight intensity={0.5} />
-                <directionalLight intensity={2} position={[5, 10, 5]} />
+                {/* <directionalLight intensity={2} position={[5, 10, 5]} /> */}
                 <directionalLight intensity={2} position={[-15, 10, 15]} />
                 <directionalLight intensity={0.15} position={[15, 10, 15]} color= "orange"/>
 
@@ -122,7 +122,7 @@ export default function Scene() {
                         />
                     </group>
                 )}
-                {/* <Portal  /> */}
+                <Portal  />
                 <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.1} intensity={1.5} />
             </EffectComposer>
             </Canvas>
