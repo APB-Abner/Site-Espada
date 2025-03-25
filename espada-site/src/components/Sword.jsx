@@ -18,7 +18,7 @@ export default function Sword({ onClick }) {
             object={scene}
             position={[0, 1.5, -15]}
             scale={[0.1, 0.1, 0.1]}
-            onClick={onClick} 
+            onClick={onClick}
         />
     );
 }
