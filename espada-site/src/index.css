@@ -14,3 +14,23 @@ canvas {
 #root {
     height: 200dvh;
 }
+
+.holo-menu-container {
+    position: fixed;
+    /* Faz com que o HoloMenu fique fixo na tela */
+    top: 50%;
+    /* Posiciona no meio da tela verticalmente */
+    left: 50%;
+    /* Posiciona no meio da tela horizontalmente */
+    transform: translate(-50%, -50%);
+    /* Centraliza completamente */
+    z-index: 10;
+    /* Garante que o HoloMenu fique sobre a cena 3D */
+}
+
+.orbitron-text {
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+}
