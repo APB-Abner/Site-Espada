@@ -28,9 +28,3 @@ canvas {
     /* Garante que o HoloMenu fique sobre a cena 3D */
 }
 
-.orbitron-text {
-    font-family: "Orbitron", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: <weight>;
-    font-style: normal;
-}
