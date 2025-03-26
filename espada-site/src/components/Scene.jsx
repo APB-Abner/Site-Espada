@@ -41,17 +41,59 @@ function BifrostEffect({ isReplacing }) {
                 }
             });
         }
+
+        // Cleanup: Remove materiais e texturas ao desmontar
+        return () => {
+            scene?.traverse((child) => {
+                if (child instanceof THREE.Mesh && child.material) {
+                    child.material.dispose(); // Remove o material da memória
+                }
+            });
+
+            emissiveTexture?.dispose(); // Remove a textura da memória
+        };
     }, [scene, emissiveTexture]);
 
-    // Animação de entrada/saída do Bifrost
     useEffect(() => {
+        let animation1, animation2;
+
         if (isReplacing && bifrostRef.current) {
-            gsap.to(bifrostRef.current.scale, { x: 2.5, y: 8, z: 2.5, duration: 0.5, ease: "power2.out" });
-            gsap.to(bifrostRef.current.position, { x: 0, y: 9, z: -9, duration: 0.5, ease: "power2.out" });
+            animation1 = gsap.to(bifrostRef.current.scale, {
+                x: 2.5,
+                y: 8,
+                z: 2.5,
+                duration: 0.5,
+                ease: "power2.out",
+            });
+            animation2 = gsap.to(bifrostRef.current.position, {
+                x: 0,
+                y: 9,
+                z: -9,
+                duration: 0.5,
+                ease: "power2.out",
+            });
         } else if (bifrostRef.current) {
-            gsap.to(bifrostRef.current.scale, { x: 2.5, y: 0, z: 2.5, duration: 0.5, ease: "power2.in" });
-            gsap.to(bifrostRef.current.position, { x: 0, y: 22, z: -9, duration: 0.5, ease: "power2.out" });
+            animation1 = gsap.to(bifrostRef.current.scale, {
+                x: 2.5,
+                y: 0,
+                z: 2.5,
+                duration: 0.5,
+                ease: "power2.in",
+            });
+            animation2 = gsap.to(bifrostRef.current.position, {
+                x: 0,
+                y: 22,
+                z: -9,
+                duration: 0.5,
+                ease: "power2.out",
+            });
         }
+
+        // Cleanup: Para animações GSAP ao desmontar
+        return () => {
+            if (animation1) animation1.kill();
+            if (animation2) animation2.kill();
+        };
     }, [isReplacing]);
 
     return (
@@ -64,7 +106,6 @@ function BifrostEffect({ isReplacing }) {
         />
     );
 }
-
 
 export default function Scene() {
     const [visible, setVisible] = useState(true);
@@ -98,7 +139,7 @@ export default function Scene() {
     };
 
     return (
-        <div className="h-dvh">
+        <div className="h-dvh big">
             <Canvas gl={{ toneMapping: ACESFilmicToneMapping }}>
 
                 <ambientLight intensity={0.5} />
@@ -107,7 +148,7 @@ export default function Scene() {
                 <directionalLight intensity={0.15} position={[15, 10, 15]} color= "orange"/>
 
                 <group ref={swordRef}>
-                    <Sword onClick={handleGrab} />
+                    <Sword onClick={handleGrab}/>
                 </group>
                 <Door />
                 <Room />
@@ -121,7 +162,7 @@ export default function Scene() {
                         />
                     </group>
                 )}
-                <Portal onClick={() => navigate("/story")}/>
+                <Portal onClick={() => navigate("/legendary")}/>
             </Canvas>
         </div>
     );

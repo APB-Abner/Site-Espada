@@ -112,7 +112,7 @@ const Sandbox = () => {
     const navigate = useNavigate();
 
     const handleStory = () => {
-        navigate("/legendadary");
+        navigate("/legendary");
     };
 
     return (

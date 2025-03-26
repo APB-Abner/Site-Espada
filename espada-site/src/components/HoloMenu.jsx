@@ -151,7 +151,7 @@ const Menu = () => {
             <RectangleFrame />
 
             <MenuButton
-                label="📖 Ouvir História"
+                label="📖 Ler História"
                 onClick={handleStory}
                 position={[0 + -10, -0, 0.02]}
                 isHovered={hoveredButton === "story"}

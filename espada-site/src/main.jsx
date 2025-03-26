@@ -7,7 +7,7 @@ import App from './App.jsx'
 // import App from './components/Portal.jsx'
 import Story from './components/Book.jsx'
 import Scene from './components/Scene.jsx'
-import Legandary from './components/legendadary.jsx'
+import Legendary from './components/legendary.jsx'
 
 
 const router = createBrowserRouter([
@@ -17,6 +17,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Scene /> },
       { path: '/story', element: <Story /> },
+      { path: '/legendary', element: <Legendary /> }
       // { path: '*', element: <PageNotFound /> },
       // { path: ':name', element: <ContentPage /> }
     ]
