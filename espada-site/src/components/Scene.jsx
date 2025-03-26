@@ -7,9 +7,9 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { ColorManagement, ACESFilmicToneMapping } from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
-import HoloMenu from "./HoloMenu.jsx.jsx";
-import Sword from "./Sword.jsx.jsx";
-import Door from "./Door.jsx.jsx";
+import HoloMenu from "./HoloMenu.jsx";
+import Sword from "./Sword.jsx";
+import Door from "./Door.jsx";
 import Portal from "./Portal.jsx";
 import Bifrost from "/models/Bifrost.glb";
 import Emission from "../assets/Texture/Emission.png";
