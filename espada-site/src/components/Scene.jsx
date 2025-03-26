@@ -111,7 +111,6 @@ export default function Scene() {
                 </group>
                 <Door />
                 <Room />
-                <EffectComposer>
                 <BifrostEffect isReplacing={true} />
                 <BifrostEffect isReplacing={isReplacing} />
                 {visible && (
@@ -122,9 +121,7 @@ export default function Scene() {
                         />
                     </group>
                 )}
-                <Portal  />
-                <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.1} intensity={1.5} />
-            </EffectComposer>
+                <Portal onClick={() => navigate("/story")}/>
             </Canvas>
         </div>
     );

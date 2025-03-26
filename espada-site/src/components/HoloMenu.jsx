@@ -3,6 +3,8 @@ import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { useNavigate } from 'react-router-dom';
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+
 
 const RectangleFrame = () => {
     const lineRef = useRef();
@@ -142,6 +144,9 @@ const Menu = () => {
 
     return (
         <group>
+        <EffectComposer>
+        <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.1} intensity={1.5} />
+                    </EffectComposer>
             <RectangleFill scrollProgress={scrollProgress} />
             <RectangleFrame />
 
