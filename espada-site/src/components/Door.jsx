@@ -13,6 +13,8 @@ export default function Door() {
     const { camera } = useThree();
     const controlsRef = useRef(null);
     const [scrollProgress, setScrollProgress] = useState(false);
+    const controlsRef = useRef(null);
+    const [scrollProgress, setScrollProgress] = useState(false);
     const [controlsEnabled, setControlsEnabled] = useState(false);
 
     useEffect(() => {
@@ -22,6 +24,7 @@ export default function Door() {
             setScrollProgress(progress);
 
             setControlsEnabled(progress >= 1);
+            setControlsEnabled(progress >= 1);
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -29,6 +32,8 @@ export default function Door() {
     }, []);
 
     useFrame(() => {
+        const maxOpen = 6;
+        const maxMove = 15;
         const maxOpen = 6;
         const maxMove = 15;
         const openAmount = maxOpen * scrollProgress;
@@ -53,28 +58,16 @@ export default function Door() {
         }
     });
 
-    const texture1 = new THREE.TextureLoader().load(TextureDoor1);
-    const texture2 = new THREE.TextureLoader().load(TextureDoor2);
-
     return (
         <>
             <mesh ref={leftDoor} position={[-3, 0, 10]}>
                 <boxGeometry args={[6, 8, 0.4]} />
-                <meshStandardMaterial map={texture1} metalness={0.9} roughness={0.2} />
+                <meshStandardMaterial map={new TextureLoader().load("/textures/doorTexture.jpg")} metalness={0.9} roughness={0.2} />
             </mesh>
 
             <mesh ref={rightDoor} position={[3, 0, 10]}>
                 <boxGeometry args={[6, 8, 0.4]} />
-                <meshStandardMaterial map={texture2} metalness={0.9} roughness={0.2} />
-            </mesh>
-
-            <mesh position={[7, 0, 10]}>
-                <boxGeometry args={[2, 8, 1]} />
-                <meshStandardMaterial color={'black'} roughness={0.2} />
-            </mesh>
-            <mesh position={[-7, 0, 10]}>
-                <boxGeometry args={[2, 8, 1]} />
-                <meshStandardMaterial color={'black'} roughness={0.2} flatShading={true}/>
+                <meshStandardMaterial map={new TextureLoader().load("/textures/doorTexture.jpg")} metalness={0.9} roughness={0.2} />
             </mesh>
 
             <pointLight ref={lightRef1} position={[-3.5, 4, 11]} intensity={5} color="cyan" />

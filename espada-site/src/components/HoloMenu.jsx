@@ -127,6 +127,14 @@ const Menu = () => {
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
+        const handleScroll = () => {
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = window.scrollY / maxScroll;
+            setScrollProgress(progress);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     const handleStory = () => {

@@ -100,27 +100,9 @@ const BlackHole = ({ onClick }) => {
     });
 
     return (
-        <mesh ref={sphereRef} position={[0, 0, 0]} onClick={onClick}>
-            <sphereGeometry args={[1, 64, 64]} />
-            <primitive object={material} attach="material" />
+        <mesh ref={portalRef} position={[0, 1.5, -2]}>
+            <torusGeometry args={[1.5, 0.3, 16, 100]} />
+            <meshStandardMaterial color="purple" emissive="blue" emissiveIntensity={2} />
         </mesh>
     );
-};
-
-// Componente para a Cena com o Buraco Negro e Partículas
-const Sandbox = () => {
-    const navigate = useNavigate();
-
-    const handleStory = () => {
-        navigate("/legendary");
-    };
-
-    return (
-        <group position={[15, 0, -9]}>
-            <BlackHole onClick={handleStory} />
-            <Particles />
-        </group>
-    );
-};
-
-export default Sandbox;
+}
