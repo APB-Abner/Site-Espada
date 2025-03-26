@@ -139,31 +139,33 @@ export default function Scene() {
     };
 
     return (
-        <div className="h-dvh big">
-            <Canvas gl={{ toneMapping: ACESFilmicToneMapping }}>
+        <div className="big">
+            <div className="h-dvh">
+                <Canvas gl={{ toneMapping: ACESFilmicToneMapping }}>
 
-                <ambientLight intensity={0.5} />
-                {/* <directionalLight intensity={2} position={[5, 10, 5]} /> */}
-                <directionalLight intensity={2} position={[-15, 10, 15]} />
-                <directionalLight intensity={0.15} position={[15, 10, 15]} color= "orange"/>
+                    <ambientLight intensity={0.5} />
+                    {/* <directionalLight intensity={2} position={[5, 10, 5]} /> */}
+                    <directionalLight intensity={2} position={[-15, 10, 15]} />
+                    <directionalLight intensity={0.15} position={[15, 10, 15]} color="orange" />
 
-                <group ref={swordRef}>
-                    <Sword onClick={handleGrab}/>
-                </group>
-                <Door />
-                <Room />
-                <BifrostEffect isReplacing={true} />
-                <BifrostEffect isReplacing={isReplacing} />
-                {visible && (
-                    <group position={[0, 1, -10]}>
-                        <HoloMenu
-                            onStory={() => navigate("/story")} // Agora abre a história
-                            onGrab={handleGrab}
-                        />
+                    <group ref={swordRef}>
+                        <Sword onClick={handleGrab} />
                     </group>
-                )}
-                <Portal onClick={() => navigate("/legendary")}/>
-            </Canvas>
+                    <Door />
+                    <Room />
+                    <BifrostEffect isReplacing={true} />
+                    <BifrostEffect isReplacing={isReplacing} />
+                    {visible && (
+                        <group position={[0, 1, -10]}>
+                            <HoloMenu
+                                onStory={() => navigate("/story")} // Agora abre a história
+                                onGrab={handleGrab}
+                            />
+                        </group>
+                    )}
+                    <Portal onClick={() => navigate("/legendary")} />
+                </Canvas>
+            </div>
         </div>
     );
 }
