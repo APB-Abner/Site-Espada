@@ -1,11 +1,11 @@
-import { Canvas } from '@react-three/fiber';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
+import { useNavigate } from 'react-router-dom';
 
 // Componente para as Partículas
 const Particles = () => {
-    const [particles, setParticles] = useState();
+    const particlesRef = useRef();
     const particleMaterial = new THREE.PointsMaterial({
         color: new THREE.Color(0x00ff00),
         size: 0.1,
@@ -14,42 +14,37 @@ const Particles = () => {
     });
 
     const particleGeometry = new THREE.BufferGeometry();
-    const particleCount = 200; // Menos partículas para um efeito mais disperso
-
-    // Inicializar as posições das partículas dispersas
+    const particleCount = 200;
     const positions = new Float32Array(particleCount * 3);
+
     for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 20; // x (maior dispersão)
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 20; // y (maior dispersão)
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 20; // z (maior dispersão)
+        positions[i * 3] = (Math.random() - 0.5) * 20;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
     }
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    // Função de criação de novas partículas
     const createParticle = () => {
-        const newParticle = new Float32Array(3);
-        newParticle[0] = (Math.random() - 0.5) * 20;
-        newParticle[1] = (Math.random() - 0.5) * 20;
-        newParticle[2] = (Math.random() - 0.5) * 20;
-        return newParticle;
+        return new Float32Array([
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 20,
+        ]);
     };
 
     useFrame((state, delta) => {
-        if (particles) {
-            const positions = particles.geometry.attributes.position.array;
-
+        if (particlesRef.current) {
+            const positions = particlesRef.current.geometry.attributes.position.array;
             for (let i = 0; i < particleCount; i++) {
                 const index = i * 3;
-                const dx = (0 - positions[index]);
-                const dy = (0 - positions[index + 1]);
-                const dz = (0 - positions[index + 2]);
+                const dx = -positions[index];
+                const dy = -positions[index + 1];
+                const dz = -positions[index + 2];
 
-                // Atração para o centro
                 positions[index] += dx * 0.05 * delta;
                 positions[index + 1] += dy * 0.05 * delta;
                 positions[index + 2] += dz * 0.05 * delta;
 
-                // Se a partícula for atraída para o centro, recriar a partícula
                 if (Math.abs(positions[index]) < 0.1 && Math.abs(positions[index + 1]) < 0.1 && Math.abs(positions[index + 2]) < 0.1) {
                     const newParticle = createParticle();
                     positions[index] = newParticle[0];
@@ -57,22 +52,22 @@ const Particles = () => {
                     positions[index + 2] = newParticle[2];
                 }
             }
-
-            particles.geometry.attributes.position.needsUpdate = true; // Atualizar a geometria
+            particlesRef.current.geometry.attributes.position.needsUpdate = true;
         }
     });
 
-    return <points ref={setParticles} geometry={particleGeometry} material={particleMaterial} />;
+    return <points ref={particlesRef} geometry={particleGeometry} material={particleMaterial} />;
 };
 
 // Componente para o Buraco Negro com Vórtice
-const BlackHole = () => {
+const BlackHole = ({ onClick }) => {
     const sphereRef = useRef();
 
     const blackHoleShader = `
+    precision mediump float;
     uniform float time;
     varying vec2 vUv;
-
+    
     void main() {
       float dist = length(vUv - 0.5);
       float strength = 1.0 / (dist * 3.0 + 0.1);
@@ -105,42 +100,27 @@ const BlackHole = () => {
     });
 
     return (
-        <mesh ref={sphereRef} position={[0, 0, 0]}>
+        <mesh ref={sphereRef} position={[0, 0, 0]} onClick={onClick}>
             <sphereGeometry args={[1, 64, 64]} />
             <primitive object={material} attach="material" />
         </mesh>
     );
 };
 
-
 // Componente para a Cena com o Buraco Negro e Partículas
-const Sandbox= () => {
+const Sandbox = () => {
+    const navigate = useNavigate();
+
+    const handleStory = () => {
+        navigate("/legendary");
+    };
+
     return (
         <group position={[15, 0, -9]}>
-            <BlackHole />
+            <BlackHole onClick={handleStory} />
             <Particles />
         </group>
     );
 };
 
 export default Sandbox;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

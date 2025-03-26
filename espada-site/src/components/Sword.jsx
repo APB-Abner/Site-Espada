@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
-export default function Sword({ onClick }) {
+export default function Sword({ onClick, scale = [0.1, 0.1, 0.1] }) {
     const swordRef = useRef();
     const { scene } = useGLTF("/models/sword.glb");
 
@@ -17,7 +17,7 @@ export default function Sword({ onClick }) {
             ref={swordRef}
             object={scene}
             position={[0, 1.5, -15]}
-            scale={[0.1, 0.1, 0.1]}
+            scale={scale}
             onClick={onClick}
         />
     );

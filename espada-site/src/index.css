@@ -9,9 +9,9 @@ canvas {
     left: 0;
     width: 100vw;
     height: 100vh;
-}
+}   
 
-#root {
+.big {
     height: 200dvh;
 }
 

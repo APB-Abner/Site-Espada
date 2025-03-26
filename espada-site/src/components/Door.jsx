@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Texture } from "@react-three/drei";
-import TextureDoor from "../assets/door.jpg"
+import TextureDoor1 from "../assets/door1.jpg"
+import TextureDoor2 from "../assets/door2.jpg"
 import * as THREE from "three";
 
 export default function Door() {
@@ -52,18 +53,19 @@ export default function Door() {
         }
     });
 
-    const texture = new THREE.TextureLoader().load(TextureDoor);
+    const texture1 = new THREE.TextureLoader().load(TextureDoor1);
+    const texture2 = new THREE.TextureLoader().load(TextureDoor2);
 
     return (
         <>
             <mesh ref={leftDoor} position={[-3, 0, 10]}>
                 <boxGeometry args={[6, 8, 0.4]} />
-                <meshStandardMaterial map={texture} metalness={0.9} roughness={0.2} />
+                <meshStandardMaterial map={texture1} metalness={0.9} roughness={0.2} />
             </mesh>
 
             <mesh ref={rightDoor} position={[3, 0, 10]}>
                 <boxGeometry args={[6, 8, 0.4]} />
-                <meshStandardMaterial map={texture} metalness={0.9} roughness={0.2} />
+                <meshStandardMaterial map={texture2} metalness={0.9} roughness={0.2} />
             </mesh>
 
             <mesh position={[7, 0, 10]}>
@@ -72,7 +74,7 @@ export default function Door() {
             </mesh>
             <mesh position={[-7, 0, 10]}>
                 <boxGeometry args={[2, 8, 1]} />
-                <meshStandardMaterial color={'black'} roughness={0.2} flatShading={true}/>
+                <meshStandardMaterial color={'black'} roughness={0.2} flatShading={true} />
             </mesh>
 
             <pointLight ref={lightRef1} position={[-3.5, 4, 11]} intensity={5} color="cyan" />
