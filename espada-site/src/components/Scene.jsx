@@ -1,14 +1,7 @@
 import * as THREE from "three";
 import { useRef, useState, useEffect } from "react";
-import * as THREE from "three";
-import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { gsap } from "gsap";
-import { useNavigate } from "react-router-dom";
-import { useGLTF, useTexture } from "@react-three/drei";
-import { ColorManagement, ACESFilmicToneMapping } from "three";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
-
 import { useNavigate } from "react-router-dom";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { ColorManagement, ACESFilmicToneMapping } from "three";
@@ -171,12 +164,10 @@ function BifrostEffect({ isReplacing }) {
 export default function Scene() {
     const [visible, setVisible] = useState(true);
     const [isReplacing, setIsReplacing] = useState(false);
-    const [visible, setVisible] = useState(true);
-    const [isReplacing, setIsReplacing] = useState(false);
+
     const swordRef = useRef();
     const navigate = useNavigate();
 
-    const navigate = useNavigate();
 
 
     // Efeito de pegar espada (Bifrost)
@@ -192,18 +183,6 @@ export default function Scene() {
         }
 
         setTimeout(() => {
-            setVisible(false);
-            setIsReplacing(true);
-
-            setTimeout(() => {
-                setIsReplacing(false);
-                setVisible(true);
-
-                if (swordRef.current) {
-                    gsap.to(swordRef.current.position, { y: 1.5, duration: 1, ease: "power2.out" });
-                }
-            }, 3000);
-        }, 500);
             setVisible(false);
             setIsReplacing(true);
 
