@@ -127,14 +127,6 @@ const Menu = () => {
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-        const handleScroll = () => {
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = window.scrollY / maxScroll;
-            setScrollProgress(progress);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     const handleStory = () => {
@@ -152,9 +144,9 @@ const Menu = () => {
 
     return (
         <group>
-        <EffectComposer>
-        <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.1} intensity={1.5} />
-                    </EffectComposer>
+            <EffectComposer>
+                <Bloom luminanceThreshold={0.3} luminanceSmoothing={0.1} intensity={1.5} />
+            </EffectComposer>
             <RectangleFill scrollProgress={scrollProgress} />
             <RectangleFrame />
 
