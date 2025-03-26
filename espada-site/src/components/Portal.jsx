@@ -2,6 +2,9 @@ import { Canvas } from '@react-three/fiber';
 import React, { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
+import { useNavigate } from 'react-router-dom';
+
+
 
 // Componente para as Partículas
 const Particles = () => {
@@ -103,7 +106,7 @@ const BlackHole = () => {
             material.uniforms.time.value += delta;
         }
     });
-
+    
     return (
         <mesh ref={sphereRef} position={[0, 0, 0]}>
             <sphereGeometry args={[1, 64, 64]} />
@@ -115,9 +118,13 @@ const BlackHole = () => {
 
 // Componente para a Cena com o Buraco Negro e Partículas
 const Sandbox= () => {
+    const navigate = useNavigate();
+    const handleStory = () => {
+        navigate("/legendadary");
+    };
     return (
         <group position={[15, 0, -9]}>
-            <BlackHole />
+            <BlackHole onclick={handleStory} />
             <Particles />
         </group>
     );
