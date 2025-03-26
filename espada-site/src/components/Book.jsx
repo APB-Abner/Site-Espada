@@ -25,9 +25,9 @@ export default function Story() {
                 </div>
                 <div className="w-8/10 self-center justify-center items-center bg-black "> 
                 <div className="container mx-auto px-4">
-                    <h1 className="text-4xl text-center mt-8 text-gray-800">A Forja da Espada</h1>
+                    <h1 className="text-4xl text-center mt-8 text-cyan-600">A Forja da Espada</h1>
 
-                    <p className="text-lg leading-relaxed text-gray-600 mt-4">
+                    <p className="text-lg leading-relaxed text-white mt-4">
                         A lâmina não existia—não ainda. Apenas um espaço vazio sobre a mesa, esperando ser preenchido.
                     </p>
 
@@ -37,12 +37,12 @@ export default function Story() {
                             <img
                                 src={Images.imagem1}
                                 alt="Referência da espada sobre a mesa"
-                                className="w-64 h-96 object-cover rounded-xl"
+                                className="max-w-none h-96 object-cover rounded-x"
                             />
                         </div>
                     </div>
 
-                    <p className="text-lg leading-relaxed text-gray-600 mt-4">
+                    <p className="text-lg leading-relaxed text-white mt-4">
                         Com a referência posicionada, os primeiros traços começaram a surgir. No centro, um brilho azul revelava onde o
                         coração da espada pulsaria...
                     </p>
@@ -60,7 +60,7 @@ export default function Story() {
                         </div>
                     </div>
 
-                    <p className="text-lg leading-relaxed text-gray-600 mt-4">
+                    <p className="text-lg leading-relaxed text-white mt-4">
                         Mas a lâmina ainda não existia...
                     </p>
 
@@ -92,7 +92,7 @@ export default function Story() {
                         </div>
                     </div>
 
-                    <p className="text-lg leading-relaxed text-gray-600 mt-4">
+                    <p className="text-lg leading-relaxed text-white mt-4">
                         Algumas partes precisavam desaparecer. A referência mostrava lacunas, espaços onde o metal parecia se partir...
                     </p>
 
@@ -116,7 +116,7 @@ export default function Story() {
                         </div>
                     </div>
 
-                    <p className="text-lg leading-relaxed text-gray-600 mt-4">
+                    <p className="text-lg leading-relaxed text-white mt-4">
                         E então, a lâmina quebrada renasceu...
                     </p>
                 </div>
