@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const RectangleFrame = () => {
     const lineRef = useRef();
@@ -111,7 +111,7 @@ const MenuButton = ({ label, onClick, position, isHovered, onPointerEnter, onPoi
 };
 
 const Menu = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [scrollProgress, setScrollProgress] = useState(0);
     const [active, setActive] = useState(null);
     const [hoveredButton, setHoveredButton] = useState(null);
@@ -129,7 +129,7 @@ const Menu = () => {
 
     const handleStory = () => {
         setActive("Contando história...");
-        // navigate("/story");
+        navigate("/story");
     };
 
     const handlePointerEnter = (button) => {
